@@ -88,8 +88,9 @@ def render(node):
   hue_fine = hue_coarse / float(max_breadth + 1)
 
   def render_recursive(node, draw, depth=0, index=0):
+    hidden = node['attributes'].get('Visible') == 'False'
     dimensions = extract_dimensions(node['attributes'])
-    if dimensions:
+    if dimensions and not hidden:
       hue = ((hue_coarse * depth) + (hue_fine * index)) / 360.0
       rgb = [int(x * 255.0) for x in hsv_to_rgb(hue, 1.0, 0.8)]
       draw.rectangle(dimensions, fill=tuple(rgb), outline=(0, 0, 0))
