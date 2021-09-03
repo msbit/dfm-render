@@ -47,35 +47,29 @@ def build_structure(filename):
 
 def first_in(d, *args):
   for arg in args:
-    if arg in d:
-      return d[arg]
+    if arg in d: return d[arg]
 
   return None
 
 def extract_dimensions(attributes):
   left = attributes.get('Left')
-  if left == None:
-    return None
+  if left == None: return None
 
   top = attributes.get('Top')
-  if top == None:
-    return None
+  if top == None: return None
 
   width = first_in(attributes, 'ClientWidth', 'Width')
-  if width == None:
-    return None
+  if width == None: return None
 
   height = first_in(attributes, 'ClientHeight', 'Height')
-  if height == None:
-    return None
+  if height == None: return None
 
   return [int(left), int(top), int(left) + int(width), int(top) + int(height)]
 
 def plumb(node, depth=0, breadth=0):
   depth += 1
 
-  if len(node['children']) == 0:
-    return (depth, breadth)
+  if len(node['children']) == 0: return (depth, breadth)
 
   breadth = max(breadth, len(node['children']))
   depth = max(plumb(c, depth, breadth)[0] for c in node['children'])
@@ -105,8 +99,7 @@ def render(node):
   render_recursive(node, draw)
   return image
 
-if len(argv) < 3:
-  exit(1)
+if len(argv) < 3: exit(1)
 
 structure = build_structure(argv[1])
 
