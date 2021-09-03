@@ -82,12 +82,12 @@ def plumb(node, depth=0, breadth=0):
 
   return (depth, breadth)
 
-def layout(node):
+def render(node):
   max_depth, max_breadth = plumb(node)
   hue_coarse = 360.0 / float(max_depth + 1)
   hue_fine = hue_coarse / float(max_breadth + 1)
 
-  def layout_recursive(node, draw, depth=0, index=0):
+  def render_recursive(node, draw, depth=0, index=0):
     dimensions = extract_dimensions(node['attributes'])
     if dimensions:
       hue = ((hue_coarse * depth) + (hue_fine * index)) / 360.0
@@ -95,13 +95,13 @@ def layout(node):
       draw.rectangle(dimensions, fill=tuple(rgb), outline=(0, 0, 0))
 
     for index, child in enumerate(node['children']):
-      layout_recursive(child, draw, depth + 1, index)
+      render_recursive(child, draw, depth + 1, index)
 
   width = int(structure['attributes']['ClientWidth'])
   height = int(structure['attributes']['ClientHeight'])
   image = Image.new('RGB', (width, height), (255, 255, 255))
   draw = ImageDraw.Draw(image)
-  layout_recursive(node, draw)
+  render_recursive(node, draw)
   return image
 
 if len(argv) < 3:
@@ -109,5 +109,5 @@ if len(argv) < 3:
 
 structure = build_structure(argv[1])
 
-image = layout(structure)
+image = render(structure)
 image.save(argv[2])
