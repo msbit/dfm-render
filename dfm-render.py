@@ -4,7 +4,7 @@ import re
 
 from colorsys import hsv_to_rgb
 from PIL import Image, ImageDraw
-from sys import argv
+from sys import argv, exit
 
 def build_frame(groups):
   return {
@@ -106,9 +106,11 @@ def render(node):
   return image
 
 if len(argv) < 3:
-  exit()
+  exit(1)
 
 structure = build_structure(argv[1])
 
 image = render(structure)
 image.save(argv[2])
+
+exit(0)
