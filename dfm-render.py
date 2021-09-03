@@ -69,7 +69,7 @@ def extract_dimensions(attributes):
   if height == None:
     return None
 
-  return [int(left), int(top), int(left + width), int(top + height)]
+  return [int(left), int(top), int(left) + int(width), int(top) + int(height)]
 
 def plumb(node, depth=0, breadth=0):
   depth += 1
