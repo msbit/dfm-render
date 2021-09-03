@@ -98,8 +98,8 @@ def render(node):
     for index, child in enumerate(node['children']):
       render_recursive(child, draw, depth + 1, index)
 
-  width = int(structure['attributes']['ClientWidth'])
-  height = int(structure['attributes']['ClientHeight'])
+  width = int(node['attributes']['ClientWidth'])
+  height = int(node['attributes']['ClientHeight'])
   image = Image.new('RGB', (width, height), (255, 255, 255))
   draw = ImageDraw.Draw(image)
   render_recursive(node, draw)
