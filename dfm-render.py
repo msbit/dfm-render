@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 
-import re
-
 from colorsys import hsv_to_rgb
 from PIL import Image, ImageDraw
+from re import compile
 from sys import argv, exit
 
 def build_frame(groups):
@@ -15,9 +14,9 @@ def build_frame(groups):
   }
 
 def build_structure(filename):
-  open_exp = re.compile('^[ ]*object (.*): (.*)\n$')
-  close_exp = re.compile('^[ ]*end\n$')
-  attribute_exp = re.compile('^[ ]*(.*) = (.*)\n$')
+  open_exp = compile('^[ ]*object (.*): (.*)\n$')
+  close_exp = compile('^[ ]*end\n$')
+  attribute_exp = compile('^[ ]*(.*) = (.*)\n$')
 
   with open(filename, 'r') as f:
     lines = f.readlines()
@@ -99,7 +98,9 @@ def render(node):
   render_recursive(node, draw)
   return image
 
-if len(argv) < 3: exit(1)
+if len(argv) < 3:
+  print(f'usage: {argv[0]} <dfm-file> <png-file>')
+  exit(1)
 
 structure = build_structure(argv[1])
 
